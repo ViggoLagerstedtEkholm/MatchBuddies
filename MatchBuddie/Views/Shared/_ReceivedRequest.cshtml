@@ -5,9 +5,8 @@
 @{ int requests = 0;}
 @foreach (Friendship receivedRequests in Model.ReceivedFriendRequests)
 {
-    if (receivedRequests.Status == FriendRequestFlag.None
-        && @UserManager.FindByIdAsync(receivedRequests.ApplicationUserId).Result.isActive &&
-        @UserManager.FindByIdAsync(receivedRequests.ApplicationUserId).Result.IsEnabled)
+    if (receivedRequests.Status == FriendRequestFlag.None 
+    && @UserManager.FindByIdAsync(receivedRequests.ApplicationUserId).Result.IsEnabled)
     {
         requests++;
         <br />
