@@ -80,7 +80,7 @@ namespace MatchBuddie.Controllers
             var matchingUsers = await _userRepository.GetAllMatches(claims);
             var isCompatible = false;
 
-            //Check if the user on the profile is in the list of all matching user of the person logged in.
+            //Check if the user on the profile is in the list of all matching user of the profile page.
             foreach (User aUser in matchingUsers)
             {
                 if (aUser.Id == profileID)
