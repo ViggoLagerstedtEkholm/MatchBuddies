@@ -1,0 +1,75 @@
+﻿@model User
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+
+@{ int requests = 0;}
+@foreach (Friendship receivedRequests in Model.ReceivedFriendRequests)
+{
+    if (receivedRequests.Status == FriendRequestFlag.None
+        && @UserManager.FindByIdAsync(receivedRequests.ApplicationUserId).Result.isActive &&
+        @UserManager.FindByIdAsync(receivedRequests.ApplicationUserId).Result.IsEnabled)
+    {
+        requests++;
+        <br />
+        <div class="card-body bg-dark rounded text-white mx-3">
+            <div class="row">
+                <div class="col">
+                    <img class="img-fluid rounded" src="https://www.incimages.com/uploaded_files/image/1920x1080/getty_478389113_970647970450091_99776.jpg" alt="">
+                </div>
+                <div class="col">
+                    <p class="text-white fitText">@UserManager.FindByIdAsync(receivedRequests.ApplicationUserId).Result.Firstname</p>
+                    <p class="text-white fitText">@UserManager.FindByIdAsync(receivedRequests.ApplicationUserId).Result.Lastname</p>
+                    <p class="text-white fitText">@UserManager.FindByIdAsync(receivedRequests.ApplicationUserId).Result.Email</p>
+                    <form class="mt-3" asp-controller="Profile" asp-action="VisitUser" asp-route-id="@receivedRequests.ApplicationUserId">
+                        <input class="btn btn-outline-light col-md-12 text-center mb-3" type="submit" value="Visit profile" />
+                    </form>
+                    <button id="AcceptBTN" class="btn btn-primary" onclick="Accept('@receivedRequests.ApplicationUserId', '@receivedRequests.FriendId');">Accept</button>
+                    <button id="DeclineBTN" class="btn btn-danger" onclick="Decline('@receivedRequests.ApplicationUserId', '@receivedRequests.FriendId');">Decline</button>
+                    <br />
+                </div>
+            </div>
+        </div>
+    }
+}
+@if (requests == 0)
+{
+    <br />
+    <p class="text-white text-center"> No pending requests.</p>
+}
+
+
+
+<script>
+    function Accept(ApplicationUserId, FriendId) {
+        $.ajax({
+            type: "POST",
+            url: "/Friend/Accept",
+            data: {
+                ApplicationUserId: ApplicationUserId,
+                FriendId: FriendId
+            },
+
+            success: function (data) {
+                UpdateReceivedRequestd();
+            },
+            error: function (data) {
+                alert('returned error!')
+            }
+        });
+    }
+
+    function Decline(ApplicationUserId, FriendId) {
+        $.ajax({
+            type: "POST",
+            url: "/Friend/Decline",
+            data: {
+                ApplicationUserId: ApplicationUserId,
+                FriendId: FriendId
+            },
+            success: function (data) {
+                UpdateReceivedRequestd();
+            }
+        });
+    }
+
+</script>

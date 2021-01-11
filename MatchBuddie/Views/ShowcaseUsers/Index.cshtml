@@ -1,0 +1,134 @@
+﻿@model IEnumerable<DataLayer.Data.Models.User>
+@using Microsoft.AspNetCore.Identity
+@using DataLayer.Data.Models;
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+<script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+<div class="card shadow bg-secondary">
+    <div class="card-body bg-secondary">
+        <form method="get" class="form-inline" asp-controller="ShowcaseUsers" asp-action="Index">
+            <p class="text-white">
+                Search
+                <input class="form-control" type="text" name="search">
+                <input class="btn btn-light" type="submit" value="Search" />
+            </p>
+        </form>
+
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <form method="post" asp-controller="ShowcaseUsers" asp-action="Index">
+                <input class="btn btn-outline-light col-md-12 text-center" type="submit" name="Find my buddy" value="Find all compatible buddies" />
+            </form>
+
+            <button class="btn btn-info my-2 font-italic mt-2" onclick="ShowInfoBox()">▼</button>
+
+            <div class="alert alert-primary " role="alert" id="infoBox">
+                Matching is made up of comparing your profile towards every other user profile. There are 2 different things that makes a match or not:
+                <hr />
+                <ul>
+                    <li>
+                        1.You must have an chosen interest. If your interests match by 30 % you are eligable to match.
+                        <a asp-controller="Profile" asp-action="Edit" class="text-xl-center text-dark font-weight-bold"><span class="text-dark text-uppercase">Add interest here!</span></a>
+                    </li>
+                    <li>
+                        2. Your profile has a selected gender and preference and will match profiles that holds your preference and gender.
+                    </li>
+                </ul>
+            </div>
+
+        }
+    </div>
+</div>
+
+
+<div class="py-5" id="showcaseStatus">
+    <div class="container">
+        @if (!Model.Any())
+        {
+            <div class="card text-center">
+                <div class="card-body">
+                    <h3 class="text-info text-capitalize text-center">Ops! There were no results</h3>
+                </div>
+            </div>
+        }
+        @foreach (var item in Model)
+        {
+            @if (!(item.Id.Equals(UserManager.GetUserId(User))))
+            {
+                <div class="card text-dark mt-3 mb-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <img class="img-fluid rounded" src="https://www.incimages.com/uploaded_files/image/1920x1080/getty_478389113_970647970450091_99776.jpg" alt="">
+                            </div>
+                            <div class="col">
+                                <div class="card-block px-2">
+                                    <p class="text-monospace font-italic">First name: @item.Firstname</p>
+                                    <p class="text-monospace font-italic">Last name: @item.Lastname</p>
+                                    <p class="text-monospace font-italic">Age: @item.age</p>
+                                    <p class="text-monospace font-italic">Is a: @item.Gender</p>
+                                    <p class="text-monospace font-italic">Looking for: @item.Preference</p>
+                                    <h5 class="card-title">Interests</h5>
+                                    @if (item.Interests.Count == 0)
+                                    {
+                                        <p class="text-danger">No added interests.</p>
+                                    }
+                                    @foreach (Interests aInterest in item.Interests)
+                                    {
+                                        <p class="badge badge-secondary">@aInterest.Interest</p>
+                                    }
+                                    @if (SignInManager.IsSignedIn(User))
+                                    {
+                                        <h5 class="card-title">Here is your interests</h5>
+                                        @if (@UserManager.FindByIdAsync(UserManager.GetUserId(User)).Result.Interests.Count == 0)
+                                        {
+                                            <p class=" text-danger">No added interests.</p>
+                                        }
+
+                                        @foreach (Interests aInterest in @UserManager.FindByIdAsync(UserManager.GetUserId(User)).Result.Interests)
+                                        {
+                                            <p class="badge badge-secondary">@aInterest.Interest</p>
+                                        }
+
+                                    
+                                        <partial name="_ShowStatusOnRequests" model="@item"/>
+                                    
+
+                                        <form class="mt-3" asp-controller="Profile" asp-action="VisitUser" asp-route-id="@item.Id">
+                                            <input class="btn btn-outline-dark col-md-12 text-center" type="submit" value="Visit profile" />
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <form class="mt-3" asp-area="Identity" asp-page="/Account/Register">
+                                            <input class="btn btn-outline-dark col-md-12 text-center" type="submit" value="Visit profile" />
+                                        </form>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        function ShowInfoBox()
+        {
+            var x = document.getElementById("infoBox");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+
+            }
+        }
+    </script>
+}
+

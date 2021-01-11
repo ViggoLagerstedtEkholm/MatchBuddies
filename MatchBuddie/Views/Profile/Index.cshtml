@@ -1,0 +1,32 @@
+﻿@model MatchBuddie.ViewModel.UserProfileViewModel
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+    <!--Every view gets the layout from the _ViewStart-->
+
+<script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+<partial name="_HeaderProfile" />
+<div class="container">
+    <div class="row">
+        <partial name="_sideBarProfile" model="@Model" />
+        <div class="col">
+            <div class="card bg-secondary">
+                <div class="card-body">
+                    <br>
+                    <h3 class="d-flex align-items-center mb-3 text-light">Discussion</h3>
+                    <div id="Messages" class=" text-center bg-secondary">
+                        <div class="scrollDownAndUp">
+                            <partial name="_ProfileMessageBoard" model="@Model">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+

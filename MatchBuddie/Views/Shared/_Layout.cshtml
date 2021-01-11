@@ -1,0 +1,81 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using DataLayer.Data.Models;
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MatchBuddie</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/custom.css" />
+</head>
+<body class="bg-dark">
+    <div class="overflow-hidden">
+        <header>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-secondary box-shadow mb-3 text-white">
+                <div class="container">
+                    <a class="navbar-brand text-white" asp-area="" asp-controller="ShowcaseUsers" asp-action="Index">MatchBuddies</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="d-flex justify-content-between">
+                        <partial name="_LoginPartial.cshtml" />
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <div class="row">
+                <div class="col-3 ml-3">
+                    <div class="bg-secondary scrollDownAndUpBig container-fluid" id="GlobalFriendRequests">
+                        <partial name="_ReceivedRequest" model="@UserManager.GetUserAsync(User).Result" />
+                    </div>
+                </div>
+                <div class="col-8 border-left">
+                    <main role="main" class="pb-3">
+                        @RenderBody()
+                    </main>
+                </div>
+            </div> 
+        }
+        else
+        {
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+        }
+        <footer class="footer text-muted bg-secondary">
+            <div class="container text-white">
+                &copy; 2020 - MatchBuddies
+            </div>
+        </footer>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        @await RenderSectionAsync("Scripts", required: false)
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+    function UpdateReceivedRequestd() {
+        $.ajax({
+            type: "GET",
+            url: "/Friend/UpdateReceivedRequest",
+            success: function (data) {
+
+                $("#partialViewRecievdRequest").html(data);
+                $("#GlobalFriendRequests").html(data);
+            }
+        });
+    }
+</script>

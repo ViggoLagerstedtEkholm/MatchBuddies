@@ -1,0 +1,27 @@
+﻿@model MatchBuddie.ViewModel.UserProfileViewModel
+
+<div class="mt-2" id="InterestList">
+    <select id="Interest" type="text" class="form-control">
+        @foreach (var interest in Model.Interests)
+        {
+            if (!(Model.user.Interests.Contains(interest)))
+            {
+                <option value=@interest.Interest>@interest.Interest </option>}
+            }
+    </select>
+
+    <ul id="interestList" class="list-unstyled">
+        @if (Model.user.Interests != null)
+        {
+             @foreach (var interest in Model.user.Interests)
+              {
+                <li class="my-2 border-white interestText" id="@interest.Interest">
+                 @interest.Interest <br />
+                <button type="button" class="btn btn-danger" onclick="DeleteInterest('@interest.Interest')">Delete Interest</button>
+                </li>
+               }
+        }
+    </ul>
+
+</div>
+

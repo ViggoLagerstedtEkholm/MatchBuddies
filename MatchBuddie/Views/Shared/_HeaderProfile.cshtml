@@ -1,0 +1,14 @@
+﻿@model MatchBuddie.ViewModel.UserProfileViewModel
+<script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<div class="card bg-secondary mb-3">
+    <div class="card-body">
+        <div class=" nav justify-content-center">
+            <a asp-controller="Profile" asp-action="Index" class="navtxt nav-item nav-link active text-light">HOME</a>
+            <a asp-controller="Profile" asp-action="About" class="navtxt nav-item nav-link text-light">ABOUT</a>
+            <a asp-controller="Profile" asp-action="Friends" class="navtxt nav-item nav-link text-light">FRIENDS</a>
+            <a asp-controller="Profile" asp-action="Edit" class="navtxt nav-item nav-link text-light">EDIT</a>
+            <a asp-area="Identity" asp-page="/Account/Manage/PersonalData" class="ml-5 navtxt nav-item nav-link text-light">More settings</a>
+        </div>
+    </div>
+</div>

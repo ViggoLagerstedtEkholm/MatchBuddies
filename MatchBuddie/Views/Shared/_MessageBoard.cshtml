@@ -1,0 +1,18 @@
+﻿@model User
+
+<div id="MessageBoard">
+    @foreach (var post in Model.ReceivedPost)
+    {
+<div class="card-body bg-dark text-white rounded mx-1 mt-3 mb-4 shadow">
+    @post.Content
+    <br />
+    <div class="font-weight-bold text-black-50 font-size-sm border-top">
+        <div class="text-white">
+            @post.User.Firstname
+            @post.User.Lastname
+            @post.Date
+        </div>
+    </div>
+</div>
+    }
+</div>

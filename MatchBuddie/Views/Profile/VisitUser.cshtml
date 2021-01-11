@@ -1,0 +1,273 @@
+﻿@model User
+@using DataLayer.Data.Models;
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+    <!--Every view gets the layout from the _ViewStart-->
+
+<script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <div class="card bg-secondary text-white">
+                <div class="card-body bg-secondary">
+                    <div id="pictureholder" class="align-items-center text-center">
+                        @if (Model.Image == null)
+                        {
+                            <img id="imgViewer" class=" img-fluid  rounded-sm" src="~/Images/ben-sweet-2LowviVHZ-E-unsplash.jpg"> }
+                      else
+                         {
+                            <img id="imgViewer" class="img-fluid  rounded-sm" src="">}
+                        <hr>
+                        <h4>@Model.Firstname</h4>
+                        <p>@Model.age YEAR</p>
+                        <p>@Model.Gender</p>
+                        <button class="btn btn-primary" onclick="CheckIfCompatable('@Model.Id');">Check if compatible</button>
+                        <p id="textID"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card mb-3 bg-secondary text-white">
+                <div class="card-body bg-secondary">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Full Name</h6>
+                        </div>
+                        <div class="col-sm-9">
+                            @Model.Firstname  @Model.Lastname
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Email</h6>
+                        </div>
+                        <div class="col-sm-9">
+                            @Model.Email
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Preferences</h6>
+                        </div>
+                        <div class="col-sm-9">
+                            @Model.Preference
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">From</h6>
+                        </div>
+                        <div class="col-sm-9">
+                            @Model.City
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Description</h6>
+                        </div>
+                        <div class="col-sm-9">
+                            @Model.Description
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row gutters-sm">
+                <div class="col mb-3">
+                    <div class="card h-100 bg-secondary text-white">
+                        <div class="card-body bg-secondary">
+                            <h6 class="d-flex align-items-center mb-3"> Intressen</h6>
+                            <hr>
+                            @if (Model.Interests.Count == 0)
+                            {
+                             <p>User have no interests.</p>}
+                            @foreach (var interests in Model.Interests)
+                            {
+                                <p class="badge badge-secondary bg-dark">@interests.Interest</p>}
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card bg-secondary">
+                <div class="card-body bg-secondary">
+                    <h6 class="text-white" id="errorMsg"> Write on the wall</h6>
+
+                    <Form method="post">
+                        <div>
+                            <textarea class="form-control" id="messageBox"></textarea>
+                            <br />
+                            <button type="button" id="postMessage" class="btn btn-primary" onclick="AddPost('@Model.Id')">Post Message</button>
+
+                        </div>
+                    </Form>
+                    <div class="mt-3 scrollDownAndUp">
+                        <partial name="_MessageBoard" model="@Model" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="card bg-secondary">
+
+                <div class="scrollDownAndUp">
+                    <p class="text-center mt-1 mb-1 text-white font-weight-bold">Friends</p>
+                    <!-- contacts card -->
+                    <ul class="list-group pull-down">
+                        @{ var printedFriends = 0; }
+                        @foreach (Friendship friend in Model.Friends)
+                        {
+                            if (Model.Id == friend.ApplicationUserId)
+                            {
+                                @if (@UserManager.FindByIdAsync(friend.FriendId).Result.isActive)
+                                {
+                                    printedFriends++;
+
+                                    <li class="list-group-item">
+                                        <div class="row w-100">
+                                            <div class="col-12 col-sm-6 col-md-3 px-0">
+                                                <img src="https://www.incimages.com/uploaded_files/image/1920x1080/getty_478389113_970647970450091_99776.jpg" alt="@UserManager.FindByIdAsync(friend.FriendId).Result.Firstname @UserManager.FindByIdAsync(friend.FriendId).Result.Lastname" class="rounded-pill mx-auto d-block img-fluid">
+                                            </div>
+                                            <div class="col-12 col-sm-6 col-md-9 text-center text-sm-left">
+                                                <span class="fa fa-mobile fa-2x text-success float-right pulse" title="online now"></span>
+                                                <label class="name lead">@UserManager.FindByIdAsync(friend.FriendId).Result.Firstname @UserManager.FindByIdAsync(friend.FriendId).Result.Lastname</label>
+                                                <br>
+                                                <span class="text-muted">@friend.RelationshipTypeUserB</span>
+                                                <br>
+                                                @if (@UserManager.GetUserAsync(User).Result.Id != @UserManager.FindByIdAsync(friend.FriendId).Result.Id)
+                                                {
+                                                    <form asp-controller="Profile" asp-action="VisitUser" asp-route-id="@friend.FriendId">
+                                                        <input class="btn btn-outline-dark col-md-12 text-center mb-3" type="submit" value="Visit profile" />
+                                                    </form>
+                                                }
+                                            </div>
+                                        </div>
+                                    </li>
+                            } 
+                        }
+                        else
+                        {
+                            if (@UserManager.FindByIdAsync(friend.ApplicationUserId).Result.isActive)
+                            {
+                                printedFriends++;
+                                <li class="list-group-item">
+                                    <div class="row w-100">
+                                        <div class="col-12 col-sm-6 col-md-3 px-0">
+                                            <img src="https://www.incimages.com/uploaded_files/image/1920x1080/getty_478389113_970647970450091_99776.jpg" alt="@UserManager.FindByIdAsync(friend.ApplicationUserId).Result.Firstname @UserManager.FindByIdAsync(friend.ApplicationUserId).Result.Lastname" class="rounded-pill mx-auto d-block img-fluid">
+                                        </div>
+                                        <div class="col-12 col-sm-6 col-md-9 text-center text-sm-left">
+                                            <span class="fa fa-mobile fa-2x text-success float-right pulse" title="online now"></span>
+                                            <label class="name lead">@UserManager.FindByIdAsync(friend.ApplicationUserId).Result.Firstname @UserManager.FindByIdAsync(friend.ApplicationUserId).Result.Lastname</label>
+                                            <br>
+                                            <span class="text-muted">@friend.RelationshipTypeUserA</span>
+
+                                            <br>
+                                            @if (@UserManager.GetUserAsync(User).Result.Id != @UserManager.FindByIdAsync(friend.ApplicationUserId).Result.Id)
+                                            {
+                                                <form asp-controller="Profile" asp-action="VisitUser" asp-route-id="@friend.ApplicationUserId">
+                                                    <input class="btn btn-outline-dark col-md-12 text-center mb-3" type="submit" value="Visit profile" />
+                                                </form>
+                                            }
+                                        </div>
+                                    </div>
+                                </li>
+                                }
+                            }
+                        }
+                    </ul>
+                    @if (printedFriends == 0)
+                    {
+                         <p class="bg-white text-center">User has no friends</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+        $(document).ready(function () {
+            var url = window.location.href;
+            var id = url.substring(url.lastIndexOf('=') + 1);
+            $.ajax({
+                type: "GET",
+                url: "/Profile/GetVisitorProfileImage",
+                data: { id: id },
+                success: function (data) {
+                    if (data != null)
+                        $("#imgViewer").attr("src", "data:image/jpg;base64," + data + "");
+                },
+                error: function (data) {
+                    console.log('Error could not load file');
+                }
+            })
+        });
+    function CheckIfCompatable(id)  // Call the Checkcompatability method 
+    {
+        var obj = { id: id }
+        var targeturl = '@Url.Action("CheckCompatability", "Profile")?profileID=' + id;
+        $.ajax({
+            type: "POST",
+            url: targeturl,
+            data: obj,
+            success: function (data) {
+                var isCompatible = data;
+                var outputText = document.getElementById("textID");
+                if (isCompatible)
+                {
+                    outputText.textContent = "You are compatible.";
+                    outputText.setAttribute("class", "text-white");
+                }
+                else
+                {
+                    outputText.textContent = "You are not compatible.";
+                    outputText.setAttribute("class", "text-white");
+                }
+            },
+            error: function (data) {
+            }
+        });
+    }
+    function UpdateMessageBoard(id) {
+        $.ajax({
+            url: "/Profile/UpdateMessageBoard",
+            type: 'GET',
+            data: {id: id},
+            success: function (results) {
+                $("#MessageBoard").html(results);
+            }
+        });
+    }                       // The method that calls the API controller to add a post on another users wall
+    function AddPost(id) {
+        var _content = document.getElementById("messageBox").value;
+
+        if (_content.length > 10 && _content.length < 300) {
+            var post =
+            {
+                content: _content,
+                reciverID: id
+            }
+            $.ajax({
+                url: "/api/Posting/SavePost",
+                type: "POST",
+                data: JSON.stringify(post),
+                contentType: 'application/json; charset=utf-8',
+                success: function (results) {
+                    $("#errorMsg").text("Write on the wall").attr("class", "text-white");
+                    document.getElementById("messageBox").value = "";
+                    UpdateMessageBoard(id);
+                },
+                error: function (jqXHR, exception) {
+                }
+            })
+        }
+        else {
+            $("#errorMsg").text("Message must be atleast 10-300 characters long.").attr("class", "text-white");
+        }
+    }
+
+</script>

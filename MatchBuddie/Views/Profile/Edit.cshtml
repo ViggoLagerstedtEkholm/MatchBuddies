@@ -1,0 +1,165 @@
+﻿@model MatchBuddie.ViewModel.UserProfileViewModel
+    <!--Every view gets the layout from the _ViewStart-->
+
+<partial name="_HeaderProfile" />
+<form asp-action="Edit" method="post" class="form-horizontal" role="form">
+    <div class="container rounded bg-secondary text-white mb-5">
+        <div class="row">
+            <div class="col-md-3 border-right border-light">
+                @if (Model.user.Image == null)
+                {
+    <img id="imgViewer" class=" img-fluid  rounded-sm my-3 " src="~/Images/ben-sweet-2LowviVHZ-E-unsplash.jpg"> }
+                else
+                {
+    <img id="imgViewer" class="img-fluid  rounded-sm my-3" src="">}
+                <div class="btn-group-vertical container-fluid">
+
+                    <input id="txtFile" type="file" class="mt-2 custom-file fitText" data-buttonText="Choose File" />
+                    <button type="button" class="mt-2 btn btn-primary" id="LoadPicture">Save Picture</button>
+                </div>
+            </div>
+            <div class="col-md-5 border-right border-light">
+                <div class="p-3">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class=" text-right">Profile Settings</h4>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <label asp-for=user.Firstname class="labels"></label><input id="Firstname" asp-For=user.Firstname type="text" class="form-control">
+                            <span asp-validation-for="user.Firstname" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for=user.Lastname class="labels"></label><input id="Lastname" asp-for=user.Lastname type="text" class="form-control">
+                            <span asp-validation-for="user.Lastname" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label asp-for=user.age class="labels"></label><input id="Age" asp-for=user.age type="number" class="form-control">
+                            <span asp-validation-for="user.age" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-12">
+                            <label asp-for=user.City class="labels"></label><input id="City" asp-for=user.City type="text" class="form-control">
+                            <span asp-validation-for="user.City" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-12">
+                            <label asp-for=user.Preference></label><select id="Sexuality" asp-for=user.Preference type="text" class="form-control">
+                                <option value="MALE">MALE</option>
+                                <option value="FEMALE">FEMALE</option>
+                                <option value="MALE_AND_FEMALE">MALE AND FEMALE</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12">
+                            <label asp-for=user.Gender></label><select id="Gender" asp-for=user.Gender type="text" class="form-control">
+                                <option value="male">MALE</option>
+                                <option value="female">FEMALE</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12">
+                            <label asp-for=user.Description></label><textarea id="Description" asp-for=user.Description class="form-control">
+                            </textarea>
+                            <span asp-validation-for="user.Description" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="mt-5 text-center"><input type="submit" id="saveProfile" class=" btn btn-primary" value="Update profile"></div>
+                </div>
+            </div>
+            <div class="col">
+                <button class=" btn btn-primary mt-3 w-100 " id="AddInterest" type="button">Add Interest</button>
+                <partial name="_InterestList" model="@Model" />
+            </div>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $.ajax({
+            type: "GET",
+            url: "/Profile/GetProfileImage",
+            success: function (data) {
+                if (data != null)
+                    $("#imgViewer").attr("src", "data:image/jpg;base64," + data + "");
+            },
+            error: function (data) {
+                console.log('Error could not load file');
+            }
+        })
+
+
+
+    });
+
+    function DeleteInterest(interest) {
+        $.ajax({
+            type: "POST",
+            url: "/Profile/DeleteInterest",
+            data: { dto: interest },
+            success: function () {
+                UpdateInterestList();
+            },
+            error: function () {
+            }
+        });
+    };
+    $("#AddInterest").click(function () {
+        var addedInterest = document.getElementById("Interest");
+        var dtoInterest = addedInterest.value;
+        $.ajax({
+            type: "POST",
+            url: "/Profile/SaveInterest",
+            data: { dto: dtoInterest },
+            success: function (data) {
+                if (data == "Failed") {
+                    alert('No interests to choose from.');
+                } else {
+                    UpdateInterestList();
+                }
+            },
+            error: function (data) {
+                alert('Could not add interest'); 
+            }
+        });
+    });
+    function UpdateInterestList() {
+        $.ajax({
+            type: 'GET',
+            url: "/Profile/UpdateInterestList",
+            success: function (data) {
+                $("#InterestList").html(data);
+            },
+            error: function (data) {
+            }
+        });
+    }
+    $("#txtFile").change(function (event) {
+        try {
+            var files = event.target.files;
+            $("#imgViewer").attr("src", window.URL.createObjectURL(files[0]));
+        }
+        catch (Typeerror) {
+        }
+    });
+    $("#LoadPicture").click(function () {
+        var files = $("#txtFile").prop("files");
+        var formData = new FormData();
+        for (var i = 0; i < files.length; i++) {
+            formData.append("file", files[i]);
+        }
+        $.ajax({
+            type: "POST",
+            url: "/Profile/SaveFile",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                alert(data); 
+            },
+            error: function (data) {
+                console.log('Error', data)
+            }
+        });
+    });
+
+</script>
+

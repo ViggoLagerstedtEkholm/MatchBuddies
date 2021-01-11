@@ -1,0 +1,88 @@
+﻿@model User
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+
+<script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+<!--Show the status of a request on the Showcaseuser site-->
+    @{
+        var found = false;
+        var sentAccepted = false;
+        var receivedAccepted = false;
+        var isRejected = false;
+        string userID = UserManager.GetUserId(User);
+
+        @foreach (Friendship sentReq in Model.SentFriendRequests)
+        {
+            if (sentReq.FriendId == userID)
+            {
+                found = true;
+                if (sentReq.Approved)
+                {
+                    sentAccepted = true;
+                }
+                else if (sentReq.Status == FriendRequestFlag.Rejected)
+                {
+                    isRejected = true;
+                }
+            }
+
+        }
+        @foreach (Friendship receivedReq in Model.ReceivedFriendRequests)
+        {
+            if (receivedReq.ApplicationUserId == userID)
+            {
+                found = true;
+                if (receivedReq.Approved)
+                {
+                    receivedAccepted = true;
+                }
+                else if (receivedReq.Status == FriendRequestFlag.Rejected)
+                {
+                    isRejected = true;
+                }
+            }
+        }
+
+        if (!found)
+        {
+            <br/>
+            <button class="btn btn-outline-dark " onclick="AddFriend('@Model.Id');">Add friend</button>
+        }
+        else if (receivedAccepted)
+        {
+            <p class="text-success font-weight-bold">Sent request accepted.</p>
+        }
+        else if (sentAccepted)
+        {
+            <p class="text-success font-weight-bold">Received request accepted</p>
+        }
+        else if (isRejected)
+        {
+            <p class="text-danger font-weight-bold">Rejected.</p>
+        }
+        else
+        {
+            <p class="text-info font-weight-bold">Pending</p>
+        }
+    }
+
+
+<script>
+    function AddFriend(id)
+    {
+        var targeturl = '@Url.Action("AddFriend", "ShowcaseUsers")?id=' + id;
+        var obj = { id : id }
+        $.ajax({
+            url: targeturl,
+            contentType: "application/json",
+            type: 'POST',
+            data: obj,
+            success: function (results) {
+                location.reload(this);
+            },
+            error: function (result) {
+
+            }
+        });
+    }
+</script>

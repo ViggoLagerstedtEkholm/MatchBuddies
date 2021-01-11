@@ -1,0 +1,42 @@
+﻿@model User
+
+<div id="ShowHideInfo">
+    @if (Model.IsEnabled)
+    {
+        <div class="mt-5">
+         <input type="button" id="HideMe" class=" btn btn-primary" value="Hide Account" onclick="hideAccount()" />
+        </div>
+    }
+    else
+    {
+        <div class="mt-5">
+          <input type="button" id="HideMe" class=" btn btn-primary" value="Show Account" onclick="hideAccount()" />
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+
+    function hideAccount() {
+        $.ajax({
+            type: "POST",
+            url: "/Profile/HideAccount",
+            success: function () {
+                UpdateHideShow()
+            },
+            error: function () {
+            }
+        });
+    }
+    function UpdateHideShow() {
+        $.ajax({
+            type: 'GET',
+            url: "/Profile/UpdateHideShowInfo",
+            success: function (data) {
+                $("#ShowHideInfo").html(data);
+            },
+            error: function (data) {
+            }
+        });
+    }
+</script>

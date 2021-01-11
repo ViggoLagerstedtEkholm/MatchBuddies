@@ -1,0 +1,83 @@
+﻿@model MatchBuddie.ViewModel.UserProfileViewModel
+
+<div class="col bg-dark">
+    <div class="card bg-secondary">
+        <div class="card-body">
+            <div id="pictureholder" class="d-flex flex-column align-items-center text-center">
+                <div class="mt-3 text-white">
+                    @if (Model.user.Image == null)
+                    {
+        <img id="imgViewer" class=" img-fluid  rounded-sm " src="~/Images/ben-sweet-2LowviVHZ-E-unsplash.jpg"> }
+    else
+    {
+<img id="imgViewer" class="img-fluid  rounded-sm" src="">}
+                    <hr>
+                    <h4>@Model.user.Firstname</h4>
+                    <p>@Model.user.age YEARS</p>
+                    <p>@Model.user.Gender</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card mb-3 mt-3 bg-secondary text-white">
+        <div class="card-body">
+            <button class="btn-primary" onclick="showList()" id="showListBtn"> See the five last visitors</button>
+            <div class=" list-unstyled d-none" id="LastFiveDiv">
+                <h3 class="mt-3">Visitors</h3>
+                <ul id="LastFive" class=" list-unstyled"></ul>
+            </div>
+        </div>   
+    </div>
+</div>
+
+<script type="text/javascript">$(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "/Profile/GetProfileImage",
+                success: function (data) {
+                    if (data != null)
+                        $("#imgViewer").attr("src", "data:image/jpg;base64," + data + "");
+                },
+                error: function (data) {
+                }
+            })
+        });
+
+        function showList() {
+            var btn = document.getElementById("LastFiveDiv");
+            if (btn.className.includes("d-none")) {
+
+                btn.setAttribute("class", "d-block list-unstyled")
+            }
+
+            else
+                btn.setAttribute("class", "d-none list-unstyled")
+        }
+    //This methods calls for the APIController to get the five latest visitors and display them
+        $(document).ready(function () {
+            $.ajax({
+                type: 'GET',
+                url: "/api/ProfileInfo/GetVisitors",
+                success: function (data) {
+                    var list = document.getElementById("LastFive");
+                    var items = 0;
+                    data.forEach(e => {
+                        items++;
+                        var listItem = document.createElement("li");
+                        listItem.setAttribute("id", e.Firstname + " " + e.Date + " " + e.Datetime);
+                        list.appendChild(document.createTextNode(e.Firstname + " " + e.Date + " " + e.Datetime));
+                        list.appendChild(listItem);
+                    })
+
+                    if (items == 0) {
+                        var infoText = document.createElement("li");
+                        infoText.setAttribute("class", "text-white");
+                        list.appendChild(document.createTextNode("There are no visitors."));
+                        list.appendChild(infoText);
+                    }
+                },
+                error: function (data) {
+                }
+            })
+        });
+    </script>

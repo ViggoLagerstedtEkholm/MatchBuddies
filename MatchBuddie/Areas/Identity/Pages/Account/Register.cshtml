@@ -1,0 +1,112 @@
+﻿@page
+@model RegisterModel
+@{ ViewData["Title"] = "Register";
+                Layout = "~/Areas/Identity/Pages/_AuthenticationLayout.cshtml"; }
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+    @*<div asp-validation-summary="All" class="text-danger"></div>*@
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Input.Preference">Preference</label>
+                <br />
+                <select asp-for="Input.Preference" class="form-control">
+                    <option value="MALE">
+                        MALE
+                    </option>
+
+                    <option value="FEMALE">
+                        FEMALE
+                    </option>
+
+                    <option value="MALE_AND_FEMALE">
+                        MALE_AND_FEMALE
+                    </option>
+                </select>
+                <span asp-validation-for="Input.Preference" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Input.Age"></label>
+                <input asp-for="Input.Age" class="form-control" />
+                <span asp-validation-for="Input.Age" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Input.Gender"></label>
+                <select asp-for="Input.Gender" class="form-control">
+                    <option value="MALE">
+                        Male
+                    </option>
+
+                    <option value="FEMALE">
+                        Female
+                    </option>
+                </select>
+                <span asp-validation-for="Input.Gender" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Input.City"></label>
+                <input asp-for="Input.City" class="form-control" />
+                <span asp-validation-for="Input.City" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Input.Firstname"></label>
+                <input asp-for="Input.Firstname" class="form-control" />
+                <span asp-validation-for="Input.Firstname" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Input.Lastname"></label>
+                <input asp-for="Input.Lastname" class="form-control" />
+                <span asp-validation-for="Input.Lastname" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @if ((ModelState.ContainsKey("EmailExists")))
+        {
+        <h6 class="text-danger">Invalid Email or Password.</h6>
+        }
+        <label asp-for="Input.Email"></label>
+        <input asp-for="Input.Email" class="form-control" />
+        <span asp-validation-for="Input.Email" class="text-danger"></span>
+
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Input.Password"></label>
+                <input asp-for="Input.Password" class="form-control" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Input.ConfirmPassword"></label>
+                <input asp-for="Input.ConfirmPassword" class="form-control" />
+                <span asp-validation-for="Input.Lastname" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Register</button>
+</form>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

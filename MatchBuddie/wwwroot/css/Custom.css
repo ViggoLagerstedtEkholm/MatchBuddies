@@ -1,0 +1,60 @@
+﻿
+.navtxt {
+    font-weight: bold !important;
+    padding: .2rem 2rem !important;
+}
+
+.interestText {
+    font-size: large;
+}
+
+.bg-dark {
+    background-color:  #221f1f !important;
+}
+
+.bg-secondary {
+    background-color: #242726 !important;
+}
+
+.btn-primary {
+    background-color: #26324a !important;
+    border-color: none;
+}
+
+#txtFile {
+overflow:hidden;
+}
+
+.fitText {
+    overflow-wrap: break-word;
+}
+
+.scrollDownAndUp {
+    height: 30rem;
+    overflow-y: scroll;
+}
+
+.scrollDownAndUpBig {
+    height: 40rem;
+    overflow-y: scroll;
+    border-radius: 5px;
+}
+
+.form-control{
+    font-family:Calibri;
+    background-color:aliceblue !important;
+
+}
+
+.dropDownContacts {
+    min-width: 300px;
+}
+
+.infoText {
+    margin-top: 2%;
+    font-size: small;
+    font-weight: bold;
+    background-color: #cce5ff;
+    color: black;
+    border-radius: 5px; 
+}

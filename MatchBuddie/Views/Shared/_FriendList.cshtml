@@ -1,0 +1,125 @@
+﻿@model MatchBuddie.ViewModel.UserProfileViewModel
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+
+<div class="card shadow text-center shadow bg-secondary" id="partialViewFriendList">
+    <div class="container scrollDownAndUp">
+        <!-- contacts card -->
+        <div class="card card-default my-3" id="card_contacts">
+            <div class="panel-collapse collapse show" aria-expanded="true">
+                <ul class="list-group pull-down">
+                 @{ var printedFriends = 0; }
+                 @foreach (Friendship friend in Model.user.Friends)
+                 {
+                    if (Model.user.Id == friend.ApplicationUserId)
+                 {
+       
+                      @if (@UserManager.FindByIdAsync(friend.FriendId).Result.isActive)
+                        {
+                          printedFriends++;
+                 
+                            <li class="list-group-item">
+                            <div class="row w-100">
+                            <div class="col-12 col-sm-6 col-md-3 px-0">
+                                <img src="https://www.incimages.com/uploaded_files/image/1920x1080/getty_478389113_970647970450091_99776.jpg" alt="@UserManager.FindByIdAsync(friend.FriendId).Result.Firstname @UserManager.FindByIdAsync(friend.FriendId).Result.Lastname" class="rounded-pill mx-auto d-block img-fluid">
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-9 text-center text-sm-left">
+                                <span class="fa fa-mobile fa-2x text-success float-right pulse" title="online now"></span>
+                                <label class="name lead">@UserManager.FindByIdAsync(friend.FriendId).Result.Firstname @UserManager.FindByIdAsync(friend.FriendId).Result.Lastname</label>
+                                <br>
+                                <span class="text-muted">@friend.RelationshipTypeUserB</span>
+                                <br>
+                                <div class="dropdown show">
+                                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Categories
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        @foreach (RelationType aCategory in Model.typeOfRelation)
+                                        {
+                                        <a class="dropdown-item" href="#" onclick="ChangeCategory('@friend.FriendId', '@friend.ApplicationUserId', '@aCategory.Type')">@aCategory.Type</a>
+                                    }
+                                    </div>
+                                </div>
+                                <br>
+                                <form asp-controller="Profile" asp-action="VisitUser" asp-route-id="@friend.FriendId">
+                                    <input class="btn btn-outline-dark col-md-12 text-center mb-3" type="submit" value="Visit profile" />
+                                </form>
+                            </div>
+                            </div>
+                            </li>
+                            } 
+                        }
+                        else
+                        {
+                            if (@UserManager.FindByIdAsync(friend.ApplicationUserId).Result.isActive)
+                            {
+                                printedFriends++;
+                           
+                                 <li class="list-group-item">
+                                  <div class="row w-100">
+                                    <div class="col-12 col-sm-6 col-md-3 px-0">
+                                       <img src="https://www.incimages.com/uploaded_files/image/1920x1080/getty_478389113_970647970450091_99776.jpg" alt="@UserManager.FindByIdAsync(friend.ApplicationUserId).Result.Firstname @UserManager.FindByIdAsync(friend.ApplicationUserId).Result.Lastname" class="rounded-pill mx-auto d-block img-fluid">
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-md-9 text-center text-sm-left">
+                                    <span class="fa fa-mobile fa-2x text-success float-right pulse" title="online now"></span>
+                                    <label class="name lead">@UserManager.FindByIdAsync(friend.ApplicationUserId).Result.Firstname @UserManager.FindByIdAsync(friend.ApplicationUserId).Result.Lastname</label>
+                                        <br>
+                                        <span class="text-muted">@friend.RelationshipTypeUserA</span>
+                                    <br>
+
+                                    <div class="dropdown show">
+                                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Categories
+                                        </a>
+
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                            @foreach (RelationType aCategory in Model.typeOfRelation)
+                                            {
+                                            <a class="dropdown-item" href="#" onclick="ChangeCategory('@friend.ApplicationUserId', '@friend.FriendId', '@aCategory.Type')">@aCategory.Type</a>
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <br>
+
+                                    <form asp-controller="Profile" asp-action="VisitUser" asp-route-id="@friend.ApplicationUserId">
+                                        <input class="btn btn-outline-dark col-md-12 text-center mb-3" type="submit" value="Visit profile" />
+                                    </form>
+                                    </div>
+                                </div>
+                                </li>
+                            }
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+        @if (printedFriends == 0)
+        {
+            <p class="bg-white">You have no friends</p>
+        }
+    </div>
+</div>
+
+<script type="text/javascript">
+    function UpdateCategoryView()
+    {
+       $.ajax({
+           url: "/Profile/UpdateFriendCategory",
+            type: 'GET',
+            success: function (results) {
+                $("#partialViewFriendList").html(results);
+            }
+        });
+ }
+    function ChangeCategory(applicationID, FriendID, newCategory) {
+
+        $.ajax({
+            url: "/Profile/ChangeCategory",
+            type: 'POST',
+            data: {applicationID: applicationID, FriendID: FriendID, newCategory: newCategory},
+            success: function (results) {
+                UpdateCategoryView();
+        }
+    });
+    }</script>      
