@@ -1,5 +1,4 @@
 # MatchBuddies
-Match with your favorite buddy with this website built in ASP.NET.
 This application was built in ASP.NET Core 5.0 and EF Core 6 and uses authentication with the help of identity.
 
 The website supports following requirements:
