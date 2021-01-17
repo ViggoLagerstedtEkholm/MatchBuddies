@@ -29,15 +29,15 @@ Future improvements:
 6. Further improved design
 7. Add more functionality to authentication using identity
 
-<img src="https://user-images.githubusercontent.com/60555651/104856950-91309e80-5915-11eb-839f-bb1dd27fe0aa.PNG" width="30%"></img> 
-<img src="https://user-images.githubusercontent.com/60555651/104856951-91c93500-5915-11eb-9c97-4ca6650b32bf.PNG" width="30%"></img> 
-<img src="https://user-images.githubusercontent.com/60555651/104856953-91c93500-5915-11eb-8705-0347403f592d.PNG" width="30%"></img>
-<img src="https://user-images.githubusercontent.com/60555651/104856954-9261cb80-5915-11eb-8b59-dd9735c74e1e.PNG" width="30%"></img>
-<img src="https://user-images.githubusercontent.com/60555651/104856955-92fa6200-5915-11eb-8165-4daa7cf2c026.PNG" width="30%"></img> 
-<img src="https://user-images.githubusercontent.com/60555651/104856957-92fa6200-5915-11eb-8af2-39c3b072c162.PNG" width="30%"></img> 
-<img src="https://user-images.githubusercontent.com/60555651/104856958-92fa6200-5915-11eb-9021-fcda74fa9767.PNG" width="30%"></img> 
-<img src="https://user-images.githubusercontent.com/60555651/104856945-8fff7180-5915-11eb-8816-2f7fb0cbdaa2.PNG" width="30%"></img> 
-<img src="https://user-images.githubusercontent.com/60555651/104856948-91309e80-5915-11eb-9e94-d93dbf21202e.PNG" width="30%"></img> 
-<img src="https://user-images.githubusercontent.com/60555651/104856949-91309e80-5915-11eb-90eb-120f51613afd.PNG" height="50%" width="30%"></img>
-<img src="https://user-images.githubusercontent.com/60555651/104857056-419ea280-5916-11eb-86ad-aadd3fb739ca.PNG" width="30%"></img> 
-<img src="https://user-images.githubusercontent.com/60555651/104857117-9e9a5880-5916-11eb-84b4-9bcc684534e1.PNG" width="30%"></img> 
+<img src="https://user-images.githubusercontent.com/60555651/104856950-91309e80-5915-11eb-839f-bb1dd27fe0aa.PNG" width="33%"></img> 
+<img src="https://user-images.githubusercontent.com/60555651/104856951-91c93500-5915-11eb-9c97-4ca6650b32bf.PNG" width="33%"></img> 
+<img src="https://user-images.githubusercontent.com/60555651/104856953-91c93500-5915-11eb-8705-0347403f592d.PNG" width="33%"></img>
+<img src="https://user-images.githubusercontent.com/60555651/104856954-9261cb80-5915-11eb-8b59-dd9735c74e1e.PNG" width="33%"></img>
+<img src="https://user-images.githubusercontent.com/60555651/104856955-92fa6200-5915-11eb-8165-4daa7cf2c026.PNG" width="33%"></img> 
+<img src="https://user-images.githubusercontent.com/60555651/104856957-92fa6200-5915-11eb-8af2-39c3b072c162.PNG" width="33%"></img> 
+<img src="https://user-images.githubusercontent.com/60555651/104856958-92fa6200-5915-11eb-9021-fcda74fa9767.PNG" width="33%"></img> 
+<img src="https://user-images.githubusercontent.com/60555651/104856945-8fff7180-5915-11eb-8816-2f7fb0cbdaa2.PNG" width="33%"></img> 
+<img src="https://user-images.githubusercontent.com/60555651/104856948-91309e80-5915-11eb-9e94-d93dbf21202e.PNG" width="33%"></img> 
+<img src="https://user-images.githubusercontent.com/60555651/104856949-91309e80-5915-11eb-90eb-120f51613afd.PNG" width="33%"></img>
+<img src="https://user-images.githubusercontent.com/60555651/104857056-419ea280-5916-11eb-86ad-aadd3fb739ca.PNG" width="33%"></img> 
+<img src="https://user-images.githubusercontent.com/60555651/104857117-9e9a5880-5916-11eb-84b4-9bcc684534e1.PNG" width="33%"></img> 
