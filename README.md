@@ -38,5 +38,5 @@ Future improvements:
 <img src="https://user-images.githubusercontent.com/60555651/104856958-92fa6200-5915-11eb-9021-fcda74fa9767.PNG" width="30%"></img> 
 <img src="https://user-images.githubusercontent.com/60555651/104856945-8fff7180-5915-11eb-8816-2f7fb0cbdaa2.PNG" width="30%"></img> 
 <img src="https://user-images.githubusercontent.com/60555651/104856948-91309e80-5915-11eb-9e94-d93dbf21202e.PNG" width="30%"></img> 
-<img src="https://user-images.githubusercontent.com/60555651/104856949-91309e80-5915-11eb-90eb-120f51613afd.PNG" width="30%"></img>
-<img src="https://user-images.githubusercontent.com/60555651/104857056-419ea280-5916-11eb-86ad-aadd3fb739ca.PNG" width="30%"></img> 
+<img src="https://user-images.githubusercontent.com/60555651/104856949-91309e80-5915-11eb-90eb-120f51613afd.PNG" width="50%"></img>
+<img src="https://user-images.githubusercontent.com/60555651/104857056-419ea280-5916-11eb-86ad-aadd3fb739ca.PNG" width="50%"></img> 
