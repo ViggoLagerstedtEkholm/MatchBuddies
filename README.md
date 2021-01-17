@@ -30,7 +30,7 @@ Future improvements:
 5. Viewcomponents instead of partial views
 6. Further improved design
 7. Add more functionality to authentication using identity
-
+8. Add cascading to all the tables on the database so the user can delete whole account without constraint errors.
 Here are some images of the website.
 
 <img src="https://user-images.githubusercontent.com/60555651/104856950-91309e80-5915-11eb-839f-bb1dd27fe0aa.PNG" width="33%"></img> 
