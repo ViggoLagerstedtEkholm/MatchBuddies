@@ -29,6 +29,8 @@ Future improvements:
 6. Further improved design
 7. Add more functionality to authentication using identity
 
+Here are some images of the website.
+
 <img src="https://user-images.githubusercontent.com/60555651/104856950-91309e80-5915-11eb-839f-bb1dd27fe0aa.PNG" width="33%"></img> 
 <img src="https://user-images.githubusercontent.com/60555651/104856951-91c93500-5915-11eb-9c97-4ca6650b32bf.PNG" width="33%"></img> 
 <img src="https://user-images.githubusercontent.com/60555651/104856953-91c93500-5915-11eb-8705-0347403f592d.PNG" width="33%"></img>
