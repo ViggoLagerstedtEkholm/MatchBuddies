@@ -2,6 +2,7 @@
 This application was built in ASP.NET Core 5.0 and EF Core 6 and uses authentication with the help of identity. 
 Designing the website was done with Bootstrap v5.0.0.
 Using AJAX to call the WEBAPI.
+The architecture used is MVC - Model, View, Controller.
 
 The website supports following requirements:
 1. Login
