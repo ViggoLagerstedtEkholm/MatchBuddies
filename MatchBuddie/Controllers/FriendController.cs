@@ -30,19 +30,15 @@ namespace MatchBuddie.Controllers
         }
 
         [HttpPost]
-        public string Accept(string ApplicationUserId, string FriendId)
+        public void Accept(string ApplicationUserId, string FriendId)
         {
             _friendRepository.AcceptFriendship(ApplicationUserId, FriendId);
-
-            return "Accepted"; // SKa vi ha kvar denna?
         }
 
         [HttpPost]
-        public string Decline(string ApplicationUserId, string FriendId)
+        public void Decline(string ApplicationUserId, string FriendId)
         {
             _friendRepository.DeclineFriendship(ApplicationUserId, FriendId);
-
-            return "Test"; // Ta bort? Eller ändra namn?
         }
 
         [HttpGet]
